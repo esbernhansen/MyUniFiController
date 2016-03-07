@@ -4,7 +4,7 @@
 # Installs the Uni-Fi controller software on a FreeBSD machine (presumably running pfSense).
 
 # The latest version of UniFi:
-UNIFI_SOFTWARE_URL="https://dl.ubnt.com/unifi/4.8.14/UniFi.unix.zip"
+UNIFI_SOFTWARE_URL="http://dl.ubnt.com/unifi/4.7.5/UniFi.unix.zip"
 
 # The rc script associated with this branch or fork:
 RC_SCRIPT_URL="https://raw.githubusercontent.com/gozoinks/unifi-pfsense/master/rc.d/unifi.sh"
@@ -33,21 +33,21 @@ fi
 # Then to be doubly sure, let's make sure ace.jar isn't running for some other reason:
 if [ $(ps ax | grep -c "/usr/local/UniFi/lib/[a]ce.jar start") -ne 0 ]; then
   echo -n "Killing ace.jar process..."
-  /bin/kill -15 `ps ax | grep "/usr/local/UniFi/lib/[a]ce.jar start" | awk '{ print $1 }'`
+  /bin/kill -15 'ps ax | grep "/usr/local/UniFi/lib/[a]ce.jar start" | awk "{ print $1 }"'
   echo " done."
 fi
 
 # And then make sure mongodb doesn't have the db file open:
 if [ $(ps ax | grep -c "/usr/local/UniFi/data/[d]b") -ne 0 ]; then
   echo -n "Killing mongod process..."
-  /bin/kill -15 `ps ax | grep "/usr/local/UniFi/data/[d]b" | awk '{ print $1 }'`
+  /bin/kill -15 'ps ax | grep "/usr/local/UniFi/data/[d]b" | awk "{ print $1 }"'
   echo " done."
 fi
 
 # If an installation exists, we'll need to back up configuration:
 if [ -d /usr/local/UniFi/data ]; then
   echo "Backing up UniFi data..."
-  BACKUPFILE=/var/backups/unifi-`date +"%Y%m%d_%H%M%S"`.tgz
+  BACKUPFILE=/var/backups/unifi-'date +"%Y%m%d_%H%M%S"'.tgz
   /usr/bin/tar -vczf ${BACKUPFILE} /usr/local/UniFi/data
 fi
 
